@@ -10,6 +10,7 @@ import Experience from "./components/Experience";
 import Testimonials from "./components/Testimonials";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import BackToTop from "./components/BackToTop";
 
 function ToastBox({ toasts }) {
   return (
@@ -71,6 +72,7 @@ export default function App() {
         <Contact showToast={showToast} />
       </main>
       <Footer />
+      <BackToTop />
       <ToastBox toasts={toasts} />
     </>
   );
