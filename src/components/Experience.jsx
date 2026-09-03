@@ -47,7 +47,7 @@ export default function Experience() {
                   <path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
                 </svg>
               </div>
-              <h4>Responsibilities</h4>
+              <h4>{t("label_responsibilities")}</h4>
               <ul>
                 {responsibilities.map((item, i) => (
                   <li key={i}>{item}</li>
@@ -62,7 +62,7 @@ export default function Experience() {
                   <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
                 </svg>
               </div>
-              <h4>Skills Acquired</h4>
+              <h4>{t("label_skills_acquired")}</h4>
               <ul>
                 {skills.map((item, i) => (
                   <li key={i}>{item}</li>
@@ -76,13 +76,13 @@ export default function Experience() {
           <div className="tl-gr-row">
             {gave && (
               <div className="tl-gr-card tl-gr-gave">
-                <h4>What I Gave</h4>
+                <h4>{t("label_gave")}</h4>
                 <p>{gave}</p>
               </div>
             )}
             {received && (
               <div className="tl-gr-card tl-gr-received">
-                <h4>What I Received</h4>
+                <h4>{t("label_received")}</h4>
                 <p>{received}</p>
               </div>
             )}
