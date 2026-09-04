@@ -1500,8 +1500,6 @@ img {
   margin-top: 8px;
 }
 .tl-expand-content {
-  min-height: 0;
-  overflow: hidden;
   padding-top: 16px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   animation: tlExpandIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
