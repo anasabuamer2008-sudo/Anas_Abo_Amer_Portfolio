@@ -1,4 +1,4 @@
-import{j as e,C as M,b as a,u as E,c as j,d as y,V as v}from"./three-BTHvzbUQ.js";import{g as p}from"./gsap-CzGW6FVa.js";import{S as C}from"./index-BHdz_4HZ.js";import"./react-B6QAK72s.js";import"./motion-xZyMmqH1.js";import"./animejs-CIZFrbXV.js";p.registerPlugin(C);const D=`
+import{j as e,C as M,b as a,u as E,c as j,d as y,V as v}from"./three-BTHvzbUQ.js";import{g as p}from"./gsap-CzGW6FVa.js";import{S as C}from"./index-GTO-6HxH.js";import"./react-B6QAK72s.js";import"./motion-xZyMmqH1.js";import"./animejs-CIZFrbXV.js";p.registerPlugin(C);const D=`
 uniform float uTime;
 varying vec3 vNormal;
 varying vec3 vViewDir;

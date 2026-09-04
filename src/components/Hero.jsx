@@ -29,7 +29,7 @@ function LinkedInIcon({ size = 18 }) {
 }
 
 export default function Hero({ scrollTo }) {
-  const { t } = useLanguage();
+  const { t, lang, isRTL } = useLanguage();
   const heroRef = useRef(null);
   const visualRef = useRef(null);
   const [enable3D, setEnable3D] = useState(false);
@@ -94,10 +94,21 @@ export default function Hero({ scrollTo }) {
     scrollTo?.(document.querySelector("#contact"), { offset: -80 });
   };
 
-  const nameLines = [
-    ["Anas"],
-    ["Abu", "Amer"],
-  ];
+  const nameLinesByLang = {
+    en: [
+      ["Anas"],
+      ["Abu", "Amer"],
+    ],
+    ar: [
+      ["انس"],
+      ["ابو", "عامر"],
+    ],
+    he: [
+      ["אנס"],
+      ["אבו", "עאמר"],
+    ],
+  };
+  const nameLines = nameLinesByLang[lang] || nameLinesByLang.en;
 
   return (
     <section className="hero" ref={heroRef}>
@@ -125,11 +136,15 @@ export default function Hero({ scrollTo }) {
                 <span className="line" key={li}>
                   {line.map((word, wi) => (
                     <span className={`word${li === 1 && wi === 1 ? " accent" : ""}`} key={wi}>
-                      {word.split("").map((ch, ci) => (
-                        <span className="char" key={ci} style={{ display: "inline-block" }}>
-                          {ch}
-                        </span>
-                      ))}
+                      {isRTL ? (
+                        <span className="char">{word}</span>
+                      ) : (
+                        word.split("").map((ch, ci) => (
+                          <span className="char" key={ci} style={{ display: "inline-block" }}>
+                            {ch}
+                          </span>
+                        ))
+                      )}
                       {wi < line.length - 1 ? "\u00A0" : ""}
                     </span>
                   ))}
