@@ -128,6 +128,8 @@ export const translations = {
       "Interpersonal communication & high social sensitivity.",
       "Real-time problem solving & adaptability to changing situations.",
     ],
+    exp3_gave: "My time, energy, and enthusiasm, warm human support, and the ability to create moments of joy and play that bring children to life.",
+    exp3_received: "A deep sense of achievement and meaning, a new perspective on the power of celebrating life, and practical experience in leadership and caring for children with special needs.",
     exp4_title: "First Aid Provider",
     exp4_period: "Volunteer Medic",
     exp4_desc: "Providing initial medical response, deepening understanding of emergency healthcare.",
