@@ -1,3 +1,9 @@
+// =================================================
+// Anas Abu Amer - Portfolio
+// Built by AbdullahZaid-ggg (GitHub)
+// Date: 4/9/2026
+// (c) Copyright AbdullahZaid-ggg. All rights reserved.
+// =================================================
 import { useState, useCallback, useEffect } from "react";
 import { useLenis } from "./hooks/useLenis";
 import { useScrollReveal } from "./hooks/useScrollReveal";
@@ -14,6 +20,8 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import BackToTop from "./components/BackToTop";
 import BottomNav from "./components/BottomNav";
+import CustomCursor from "./components/motion/CustomCursor";
+import DnaScrollRail from "./components/motion/DnaScrollRail";
 
 function ToastBox({ toasts }) {
   return (
@@ -41,27 +49,12 @@ export default function App() {
     }, 3000);
   }, []);
 
-  // Profile card tilt (desktop only)
+  // Enable custom cursor on precise pointers
   useEffect(() => {
-    const card = document.querySelector(".profile-card");
-    if (!card || !window.matchMedia("(hover: hover)").matches) return;
-
-    const handleMove = (e) => {
-      const r = card.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width - 0.5;
-      const y = (e.clientY - r.top) / r.height - 0.5;
-      card.style.transform = `perspective(600px) rotateY(${x * 5}deg) rotateX(${-y * 5}deg)`;
-    };
-    const handleLeave = () => {
-      card.style.transform = "perspective(600px) rotateY(0) rotateX(0)";
-    };
-
-    card.addEventListener("mousemove", handleMove);
-    card.addEventListener("mouseleave", handleLeave);
-    return () => {
-      card.removeEventListener("mousemove", handleMove);
-      card.removeEventListener("mouseleave", handleLeave);
-    };
+    const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    if (!fine) return;
+    document.body.classList.add("has-custom-cursor");
+    return () => document.body.classList.remove("has-custom-cursor");
   }, []);
 
   return (
@@ -87,6 +80,8 @@ export default function App() {
       <Footer />
       <BackToTop />
       <BottomNav />
+      <CustomCursor />
+      <DnaScrollRail />
       <ToastBox toasts={toasts} />
     </>
   );

@@ -1,4 +1,12 @@
+// =================================================
+// Anas Abu Amer - Portfolio
+// Built by AbdullahZaid-ggg (GitHub)
+// Date: 4/9/2026
+// (c) Copyright AbdullahZaid-ggg. All rights reserved.
+// =================================================
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { Sun, Moon } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { useTheme } from "../context/ThemeContext";
 
@@ -16,11 +24,26 @@ export default function Navbar({ scrollTo }) {
   const { theme, toggleTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [active, setActive] = useState("");
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
+  }, []);
+
+  useEffect(() => {
+    const sections = NAV_ITEMS.map((i) => document.querySelector(i.href)).filter(Boolean);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(`#${entry.target.id}`);
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px" }
+    );
+    sections.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -45,17 +68,29 @@ export default function Navbar({ scrollTo }) {
       </a>
       <div className="scroll-progress" />
 
-      <nav className={`navbar${scrolled ? " scrolled" : ""}`}>
+      <motion.nav
+        className={`navbar${scrolled ? " scrolled" : ""}`}
+        initial={{ y: -70, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      >
         <div className="nav-container">
-          <a href="#" className="nav-logo">
+          <motion.a
+            href="#"
+            className="nav-logo"
+            onClick={(e) => e.preventDefault()}
+            whileHover={{ scale: 1.08, rotate: 2 }}
+            whileTap={{ scale: 0.95 }}
+          >
             <img src="/profile.webp" alt="A" width="40" height="40" />
-          </a>
+          </motion.a>
 
           <div className="nav-links">
             {NAV_ITEMS.map((item) => (
               <a
                 key={item.key}
                 href={item.href}
+                className={active === item.href ? "active" : ""}
                 onClick={(e) => {
                   e.preventDefault();
                   handleNavClick(item.href);
@@ -67,26 +102,26 @@ export default function Navbar({ scrollTo }) {
           </div>
 
           <div className="nav-actions">
-            <button
+            <motion.button
               className="theme-toggle"
               onClick={toggleTheme}
               aria-label="Toggle theme"
+              whileHover={{ scale: 1.08, rotate: 20 }}
+              whileTap={{ scale: 0.9 }}
             >
-              <svg className="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="5" />
-                <line x1="12" y1="1" x2="12" y2="3" />
-                <line x1="12" y1="21" x2="12" y2="23" />
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                <line x1="1" y1="12" x2="3" y2="12" />
-                <line x1="21" y1="12" x2="23" y2="12" />
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-              </svg>
-              <svg className="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-              </svg>
-            </button>
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={theme}
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.25 }}
+                  className="icon-toggle-wrap"
+                >
+                  {theme === "dark" ? <Moon size={16} /> : <Sun size={16} />}
+                </motion.span>
+              </AnimatePresence>
+            </motion.button>
 
             <div className="lang-switcher">
               {langs.map((l) => (
@@ -110,7 +145,7 @@ export default function Navbar({ scrollTo }) {
             </button>
           </div>
         </div>
-      </nav>
+      </motion.nav>
 
       <div className={`mobile-nav${mobileOpen ? " open" : ""}`} aria-hidden={!mobileOpen}>
         <div className="mobile-nav-inner">
@@ -140,20 +175,7 @@ export default function Navbar({ scrollTo }) {
               ))}
             </div>
             <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
-              <svg className="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="5" />
-                <line x1="12" y1="1" x2="12" y2="3" />
-                <line x1="12" y1="21" x2="12" y2="23" />
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                <line x1="1" y1="12" x2="3" y2="12" />
-                <line x1="21" y1="12" x2="23" y2="12" />
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-              </svg>
-              <svg className="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-              </svg>
+              {theme === "dark" ? <Moon size={16} /> : <Sun size={16} />}
             </button>
           </div>
         </div>

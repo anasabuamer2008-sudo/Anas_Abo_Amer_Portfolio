@@ -1,27 +1,62 @@
-import { useState } from "react";
+// =================================================
+// Anas Abu Amer - Portfolio
+// Built by AbdullahZaid-ggg (GitHub)
+// Date: 4/9/2026
+// (c) Copyright AbdullahZaid-ggg. All rights reserved.
+// =================================================
+import { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ChevronDown, Pencil, Activity } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
+import { Reveal } from "./motion/Reveal";
+import SectionFX from "./motion/SectionFX";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Experience() {
   const { t } = useLanguage();
   const [openCard, setOpenCard] = useState(null);
+  const sectionRef = useRef(null);
 
   const toggle = (key) => setOpenCard((prev) => (prev === key ? null : key));
 
-  const ChevronIcon = ({ isOpen }) => (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={`tl-chevron${isOpen ? " open" : ""}`}
-    >
-      <polyline points="6 9 12 15 18 9" />
-    </svg>
-  );
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const ctx = gsap.context(() => {
+      const track = el.querySelector(".timeline-track");
+      const dots = el.querySelectorAll(".tl-dot");
+      if (track) {
+        gsap.fromTo(
+          track,
+          { scaleY: 0 },
+          {
+            scaleY: 1,
+            transformOrigin: "top",
+            ease: "none",
+            scrollTrigger: {
+              trigger: el.querySelector(".timeline"),
+              start: "top 75%",
+              end: "bottom 60%",
+              scrub: 0.5,
+            },
+          }
+        );
+        gsap.utils.toArray(".tl-item").forEach((item) => {
+          gsap.from(item, {
+            opacity: 0,
+            x: -30,
+            duration: 0.7,
+            ease: "power3.out",
+            scrollTrigger: { trigger: item, start: "top 85%", once: true },
+          });
+        });
+      }
+    }, el);
+    return () => ctx.revert();
+  }, []);
 
   const DetailPanel = ({ prefix }) => {
     const responsibilities = t(`${prefix}_responsibilities`);
@@ -35,126 +70,132 @@ export default function Experience() {
     const hasSkills = Array.isArray(skills) && skills.length > 0;
 
     return (
-      <div className="tl-expand-content">
-        {role && <p className="tl-role">{role}</p>}
-        {about && <p className="tl-about">{about}</p>}
+      <motion.div
+        className="tl-expand-content"
+        initial={{ opacity: 0, height: 0 }}
+        animate={{ opacity: 1, height: "auto" }}
+        exit={{ opacity: 0, height: 0 }}
+        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <div className="tl-expand-inner">
+          {role && <p className="tl-role">{role}</p>}
+          {about && <p className="tl-about">{about}</p>}
 
-        <div className="tl-detail-grid">
-          {hasResp && (
-            <div className="tl-detail-card">
-              <div className="tl-detail-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
-                </svg>
-              </div>
-              <h4>{t("label_responsibilities")}</h4>
-              <ul>
-                {responsibilities.map((item, i) => (
-                  <li key={i}>{item}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-          {hasSkills && (
-            <div className="tl-detail-card">
-              <div className="tl-detail-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-                </svg>
-              </div>
-              <h4>{t("label_skills_acquired")}</h4>
-              <ul>
-                {skills.map((item, i) => (
-                  <li key={i}>{item}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-
-        {(gave || received) && (
-          <div className="tl-gr-row">
-            {gave && (
-              <div className="tl-gr-card tl-gr-gave">
-                <h4>{t("label_gave")}</h4>
-                <p>{gave}</p>
+          <div className="tl-detail-grid">
+            {hasResp && (
+              <div className="tl-detail-card">
+                <div className="tl-detail-icon">
+                  <Pencil size={18} />
+                </div>
+                <h4>{t("label_responsibilities")}</h4>
+                <ul>
+                  {responsibilities.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
+                </ul>
               </div>
             )}
-            {received && (
-              <div className="tl-gr-card tl-gr-received">
-                <h4>{t("label_received")}</h4>
-                <p>{received}</p>
+            {hasSkills && (
+              <div className="tl-detail-card">
+                <div className="tl-detail-icon">
+                  <Activity size={18} />
+                </div>
+                <h4>{t("label_skills_acquired")}</h4>
+                <ul>
+                  {skills.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
+                </ul>
               </div>
             )}
           </div>
-        )}
-      </div>
+
+          {(gave || received) && (
+            <div className="tl-gr-row">
+              {gave && (
+                <div className="tl-gr-card tl-gr-gave">
+                  <h4>{t("label_gave")}</h4>
+                  <p>{gave}</p>
+                </div>
+              )}
+              {received && (
+                <div className="tl-gr-card tl-gr-received">
+                  <h4>{t("label_received")}</h4>
+                  <p>{received}</p>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </motion.div>
     );
   };
 
+  const items = [
+    { id: "exp1", active: true, volunteer: false, expandable: false },
+    { id: "exp2", active: false, volunteer: true, expandable: true, quote: true },
+    { id: "exp3", active: false, volunteer: true, expandable: true, quote: false },
+    { id: "exp4", active: false, volunteer: false, expandable: false },
+  ];
+
   return (
-    <section id="experience" className="section section--dark">
+    <section id="experience" className="section section--dark" ref={sectionRef}>
+      <SectionFX variant="experience" />
       <div className="container">
-        <div className="section-label">
+        <Reveal as="div" className="section-label">
           <span className="label-num">04</span>
           <span>{t("exp_title")}</span>
-        </div>
+        </Reveal>
+
         <div className="timeline">
           <div className="timeline-track" />
 
-          <div className="tl-item">
-            <div className="tl-dot active" />
-            <div className="tl-body">
-              <span className="tl-badge">{t("exp_badge_active")}</span>
-              <h3>{t("exp1_title")}</h3>
-              <time>{t("exp1_period")}</time>
-              <p>{t("exp1_desc")}</p>
-            </div>
-          </div>
+          {items.map((item) => (
+            <div className="tl-item" key={item.id}>
+              <div className={`tl-dot${item.active ? " active" : ""}`} />
+              <div
+                className={`tl-body${item.volunteer ? " tl-body--expandable" : ""}${
+                  item.expandable && openCard === item.id ? " expanded" : ""
+                }`}
+              >
+                {item.volunteer && (
+                  <span className="tl-badge tl-badge--volunteer">{t("exp_badge_volunteer")}</span>
+                )}
+                {item.active && <span className="tl-badge">{t("exp_badge_active")}</span>}
 
-          <div className="tl-item">
-            <div className="tl-dot" />
-            <div className={`tl-body tl-body--expandable${openCard === "exp2" ? " expanded" : ""}`}>
-              <span className="tl-badge tl-badge--volunteer">{t("exp_badge_volunteer")}</span>
-              <button className="tl-expand-trigger" onClick={() => toggle("exp2")} aria-expanded={openCard === "exp2"}>
-                <div>
-                  <h3>{t("exp2_title")}</h3>
-                  <time>{t("exp2_period")}</time>
-                </div>
-                <ChevronIcon isOpen={openCard === "exp2"} />
-              </button>
-              <div className="tl-quote">{t("exp2_quote")}</div>
-              <div className={`tl-expand-wrapper${openCard === "exp2" ? " open" : ""}`}>
-                <DetailPanel prefix="exp2" />
+                {item.expandable ? (
+                  <>
+                    <button
+                      className="tl-expand-trigger"
+                      onClick={() => toggle(item.id)}
+                      aria-expanded={openCard === item.id}
+                    >
+                      <div>
+                        <h3>{t(`${item.id}_title`)}</h3>
+                        <time>{t(`${item.id}_period`)}</time>
+                      </div>
+                      <ChevronDown
+                        size={16}
+                        className={`tl-chevron${openCard === item.id ? " open" : ""}`}
+                      />
+                    </button>
+                    {item.quote && <div className="tl-quote">{t(`${item.id}_quote`)}</div>}
+                    <div className={`tl-expand-wrapper${openCard === item.id ? " open" : ""}`}>
+                      <AnimatePresence>
+                        {openCard === item.id && <DetailPanel prefix={item.id} />}
+                      </AnimatePresence>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <h3>{t(`${item.id}_title`)}</h3>
+                    <time>{t(`${item.id}_period`)}</time>
+                    <p>{t(`${item.id}_desc`)}</p>
+                  </>
+                )}
               </div>
             </div>
-          </div>
-
-          <div className="tl-item">
-            <div className="tl-dot" />
-            <div className={`tl-body tl-body--expandable${openCard === "exp3" ? " expanded" : ""}`}>
-              <span className="tl-badge tl-badge--volunteer">{t("exp_badge_volunteer")}</span>
-              <button className="tl-expand-trigger" onClick={() => toggle("exp3")} aria-expanded={openCard === "exp3"}>
-                <div>
-                  <h3>{t("exp3_title")}</h3>
-                  <time>{t("exp3_period")}</time>
-                </div>
-                <ChevronIcon isOpen={openCard === "exp3"} />
-              </button>
-              <div className={`tl-expand-wrapper${openCard === "exp3" ? " open" : ""}`}>
-                <DetailPanel prefix="exp3" />
-              </div>
-            </div>
-          </div>
-
-          <div className="tl-item">
-            <div className="tl-dot" />
-            <div className="tl-body">
-              <h3>{t("exp4_title")}</h3>
-              <time>{t("exp4_period")}</time>
-              <p>{t("exp4_desc")}</p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>

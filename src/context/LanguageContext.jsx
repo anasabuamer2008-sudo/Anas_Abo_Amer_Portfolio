@@ -1,3 +1,9 @@
+// =================================================
+// Anas Abu Amer - Portfolio
+// Built by AbdullahZaid-ggg (GitHub)
+// Date: 4/9/2026
+// (c) Copyright AbdullahZaid-ggg. All rights reserved.
+// =================================================
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { translations } from "../data/translations.js";
 

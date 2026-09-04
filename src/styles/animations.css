@@ -1,0 +1,586 @@
+/* =================================================
+   Anas Abu Amer - Portfolio
+   Built by AbdullahZaid-ggg (GitHub)
+   Date: 4/9/2026
+   (c) Copyright AbdullahZaid-ggg. All rights reserved.
+   ================================================= */
+/* =================================================
+   MOTION ENHANCEMENTS
+   ================================================= */
+
+/* Hero background blobs */
+.fx-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.5;
+  will-change: transform;
+}
+.fx-blob-1 {
+  width: 380px;
+  height: 380px;
+  top: -80px;
+  left: -120px;
+  background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+  opacity: 0.25;
+}
+.fx-blob-2 {
+  width: 320px;
+  height: 320px;
+  bottom: 10%;
+  right: -100px;
+  background: radial-gradient(circle, var(--primary-2) 0%, transparent 70%);
+  opacity: 0.18;
+}
+.fx-blob-3 {
+  width: 200px;
+  height: 200px;
+  top: 40%;
+  left: 45%;
+  background: radial-gradient(circle, var(--accent-2) 0%, transparent 70%);
+  opacity: 0.15;
+}
+/* Hero decorative background words */
+.hero-bg-word {
+  position: absolute;
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 12vw, 10rem);
+  color: var(--text);
+  opacity: 0.03;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+  z-index: 0;
+}
+.hero-bg-word-1 { top: 12%; left: -2%; }
+.hero-bg-word-2 { top: 45%; right: -4%; }
+.hero-bg-word-3 { bottom: 8%; left: 10%; }
+
+/* Hero name characters */
+.hero-name .char {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+/* Profile card entrance (motion) */
+@media (prefers-reduced-motion: reduce) {
+  .fx-blob,
+  .hero-bg-word {
+    animation: none !important;
+  }
+}
+
+/* Experience expand inner */
+.tl-expand-inner {
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Custom cursor — biology "cell" with mitosis on click */
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 99999;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+}
+/* Cell membrane ring */
+.custom-cursor--ring {
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+  opacity: 0.6;
+  box-shadow: inset 0 0 14px color-mix(in srgb, var(--accent) 22%, transparent),
+    0 0 12px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+.custom-cursor--ring.is-hovering {
+  width: 56px;
+  height: 56px;
+  opacity: 0.25;
+  border-width: 2px;
+}
+.custom-cursor--ring.is-dividing {
+  border-radius: 42%;
+}
+/* Cell nucleus (dot) + daughter nuclei for mitosis */
+.custom-cursor--dot {
+  width: 12px;
+  height: 12px;
+  display: grid;
+  place-items: center;
+}
+.custom-cursor--dot .cc-nucleus {
+  grid-area: 1 / 1;
+  position: relative;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent), 0 0 3px var(--accent);
+  transition: transform 0.34s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.34s;
+}
+.custom-cursor--dot .cc-da,
+.custom-cursor--dot .cc-db {
+  opacity: 0;
+}
+.custom-cursor--dot.is-dividing .cc-nucleus:not(.cc-da):not(.cc-db) {
+  transform: scale(0.15);
+  opacity: 0;
+}
+.custom-cursor--dot.is-dividing .cc-da {
+  opacity: 1;
+  transform: translateX(9px) scale(1);
+}
+.custom-cursor--dot.is-dividing .cc-db {
+  opacity: 1;
+  transform: translateX(-9px) scale(1);
+}
+@media (hover: none), (pointer: coarse) {
+  .custom-cursor {
+    display: none;
+  }
+}
+
+/* Hide default cursor on devices that support custom cursor */
+@media (hover: hover) and (pointer: fine) {
+  body.has-custom-cursor,
+  body.has-custom-cursor a,
+  body.has-custom-cursor button,
+  body.has-custom-cursor input,
+  body.has-custom-cursor textarea {
+    cursor: none;
+  }
+}
+
+/* Smooth entrance for motion reveal elements */
+.motion-reveal {
+  will-change: transform, opacity;
+}
+
+/* Education card accent underline */
+.edu-card {
+  position: relative;
+}
+.edu-underline {
+  height: 3px;
+  width: 0;
+  margin-top: 18px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  color: var(--accent);
+  border-radius: 999px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.edu-card.current .edu-underline {
+  width: 100%;
+}
+.grade-count {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+}
+
+/* Contact card hover lift */
+.ch-card {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s, box-shadow 0.25s;
+}
+.ch-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Footer logo pulse on hover */
+.footer-logo {
+  transition: letter-spacing 0.3s;
+}
+.footer-logo:hover {
+  letter-spacing: 0.02em;
+}
+
+/* Navbar icon toggle wrapper */
+.icon-toggle-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nav-links a.active {
+  color: var(--text);
+}
+.nav-links a.active::after {
+  transform: scaleX(1);
+}
+/* =================================================
+   SECTION BACKGROUND FX (SectionFX) - biology theme
+   ================================================= */
+
+/* Contain backgrounds inside each section/footer/hero */
+.hero,
+.section,
+.footer {
+  position: relative;
+  overflow: hidden;
+}
+.section > .sfx,
+.hero > .sfx,
+.footer > .sfx {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.section > .container,
+.hero > .container,
+.footer > .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Shared strokes */
+.fx-strand,
+.fx-rung,
+.fx-orb-ring,
+.fx-orb-pt,
+.fx-link,
+.fx-node,
+.fx-cell-mem,
+.fx-nucleus,
+.fx-signal,
+.fx-signal-core {
+  shape-rendering: geometricPrecision;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Hero: soft cell halos */
+.fx-halo {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  will-change: transform, opacity;
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+}
+.hero .fx-halo {
+  top: -140px;
+  right: -120px;
+  opacity: 0.18;
+}
+[dir="rtl"] .hero .fx-halo {
+  right: auto;
+  left: -120px;
+}
+
+/* Hero: DNA double helix */
+.fx-dna {
+  position: absolute;
+  right: 6%;
+  top: 14%;
+  width: clamp(150px, 20vw, 230px);
+  height: auto;
+  opacity: 0.55;
+  will-change: transform;
+  filter: drop-shadow(0 0 24px color-mix(in srgb, var(--accent) 30%, transparent));
+}
+[dir="rtl"] .fx-dna {
+  right: auto;
+  left: 6%;
+}
+.fx-strand {
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+.fx-rung {
+  stroke: var(--primary-2);
+  stroke-width: 1.2;
+  opacity: 0.5;
+}
+.fx-dna-light {
+  opacity: 0.35;
+  will-change: cy, opacity;
+}
+
+/* About: cell cluster */
+.fx-cells {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.7;
+}
+.fx-cell-mem {
+  fill: color-mix(in srgb, var(--primary-2) 10%, transparent);
+  stroke: color-mix(in srgb, var(--accent) 40%, transparent);
+  stroke-width: 1;
+}
+.fx-nucleus {
+  fill: color-mix(in srgb, var(--accent) 35%, transparent);
+  will-change: opacity, scale;
+}
+
+/* Skills: atomic orbital model */
+.fx-orbits {
+  position: absolute;
+  right: 6%;
+  top: 50%;
+  transform: translateY(-46%);
+  width: clamp(160px, 26vw, 260px);
+  opacity: 0.55;
+}
+[dir="rtl"] .fx-orbits {
+  right: auto;
+  left: 6%;
+}
+.fx-orb-nucleus {
+  fill: var(--accent);
+  opacity: 0.5;
+  filter: blur(1px);
+}
+.fx-orb-ring {
+  stroke: var(--primary-2);
+  stroke-width: 1.1;
+  opacity: 0.45;
+}
+.fx-orb-pt {
+  fill: var(--accent);
+  r: 4;
+  opacity: 0.8;
+}
+.fx-electron {
+  will-change: transform;
+}
+
+/* Experience: neural network (dark) */
+.fx-neural {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+}
+.fx-link {
+  stroke: rgba(168, 196, 224, 0.4);
+  stroke-width: 0.8;
+}
+.fx-node {
+  fill: rgba(224, 184, 138, 0.9);
+  filter: drop-shadow(0 0 6px rgba(224, 184, 138, 0.7));
+}
+
+/* Contact: signal rings */
+.fx-signals {
+  position: absolute;
+  left: 6%;
+  bottom: 6%;
+  width: 150px;
+  height: 150px;
+  opacity: 0.6;
+}
+[dir="rtl"] .fx-signals {
+  left: auto;
+  right: 6%;
+}
+.fx-signal-core {
+  fill: var(--accent);
+  opacity: 0.7;
+}
+.fx-signal {
+  stroke: var(--accent);
+  stroke-width: 1.2;
+  fill: none;
+}
+
+/* Education / footer: horizontal DNA */
+.fx-dna-h {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200%;
+  max-width: none;
+  opacity: 0.35;
+  will-change: transform;
+}
+.education .fx-dna-h,
+#education .fx-dna-h {
+  top: -10px;
+}
+.footer .fx-dna-h {
+  bottom: 8px;
+  opacity: 0.18;
+}
+
+/* Dotted lab grid (education) */
+.fx-grid-dots {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(27, 42, 74, 0.1) 1.4px, transparent 1.4px);
+  background-size: 26px 26px;
+  mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.7), transparent 72%);
+  -webkit-mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.7), transparent 72%);
+}
+[data-theme="dark"] .fx-grid-dots {
+  background-image: radial-gradient(rgba(168, 196, 224, 0.12) 1.4px, transparent 1.4px);
+}
+
+/* Testimonials: membrane bokeh */
+.fx-bokeh {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+  opacity: 0.1;
+  filter: blur(4px);
+  will-change: transform, opacity;
+}
+
+/* Responsive: hide heavy motifs on small screens */
+@media (max-width: 768px) {
+  .fx-dna {
+    right: 0;
+    top: 4%;
+    width: clamp(110px, 24vw, 150px);
+    opacity: 0.4;
+  }
+  .fx-orbits {
+    right: 2%;
+    width: 130px;
+    opacity: 0.45;
+  }
+  .fx-dna-h {
+    width: 260%;
+  }
+  .fx-cells {
+    opacity: 0.4;
+  }
+}
+@media (max-width: 480px) {
+  .fx-dna,
+  .fx-orbits,
+  .fx-signals {
+    display: none;
+  }
+  .fx-bokeh {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fx-halo,
+  .fx-cell,
+  .fx-nucleus,
+  .fx-electron,
+  .fx-dna,
+  .fx-dna-light,
+  .fx-link,
+  .fx-node,
+  .fx-signal,
+  .fx-dna-h,
+  .fx-bokeh {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ── DNA vertical scroll rail ── */
+.dna-rail {
+  position: fixed;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 900;
+  height: 58vh;
+  width: 48px;
+  opacity: 0.9;
+  pointer-events: none;
+}
+[dir="rtl"] .dna-rail {
+  right: auto;
+  left: 18px;
+}
+.dna-rail-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.dna-rail-strand {
+  fill: none;
+  stroke: var(--primary-2);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  opacity: 0.5;
+}
+.dna-rail-rung {
+  stroke: var(--primary-2);
+  stroke-width: 1.2;
+  opacity: 0.35;
+  transition: opacity 0.35s, stroke 0.35s, filter 0.35s;
+}
+.dna-rail-rung.lit {
+  stroke: var(--accent);
+  opacity: 1;
+  filter: drop-shadow(0 0 4px var(--accent));
+}
+.dna-rail-marker {
+  fill: var(--accent);
+  opacity: 0;
+  filter: drop-shadow(0 0 6px var(--accent));
+  transition: opacity 0.3s;
+}
+@media (hover: none), (pointer: coarse) {
+  .dna-rail {
+    display: none;
+  }
+}
+@media (max-width: 768px) {
+  .dna-rail {
+    display: none;
+  }
+}
+
+/* ── Microscope lens-zoom ── */
+.microscope-zoom {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  cursor: none;
+  border-radius: inherit;
+}
+.microscope-zoom-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.microscope-lens {
+  position: absolute;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  border: 2px solid color-mix(in srgb, var(--accent) 70%, transparent);
+  box-shadow: 0 0 0 9999px rgba(255, 255, 255, 0.12),
+    0 0 24px rgba(0, 0, 0, 0.35), inset 0 0 20px rgba(0, 0, 0, 0.25);
+  background-repeat: no-repeat;
+  background-color: var(--surface);
+}
+/* subtle ring to feel like a microscope objective */
+.microscope-lens::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--accent-2) 60%, transparent);
+  pointer-events: none;
+}
+@media (hover: none), (pointer: coarse) {
+  .microscope-zoom {
+    cursor: inherit;
+  }
+}
+

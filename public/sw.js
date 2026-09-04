@@ -1,3 +1,9 @@
+// =================================================
+// Anas Abu Amer - Portfolio
+// Built by AbdullahZaid-ggg (GitHub)
+// Date: 4/9/2026
+// (c) Copyright AbdullahZaid-ggg. All rights reserved.
+// =================================================
 const CACHE_NAME = "anas-portfolio-v1";
 const ASSETS = ["/", "/index.html", "/manifest.json"];
 
